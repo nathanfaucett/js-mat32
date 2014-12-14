@@ -6,59 +6,80 @@ var mat32 = module.exports;
 
 
 mat32.create = function(m11, m12, m13, m21, m22, m23) {
-    return mat32.set(
-        new mathf.ArrayType(6),
-        m11, m12, m13,
-        m21, m22, m23
-    );
+    var out = new mathf.ArrayType(6);
+
+    out[0] = m11 !== undefined ? m11 : 1;
+    out[2] = m12 !== undefined ? m12 : 0;
+    out[1] = m21 !== undefined ? m21 : 0;
+    out[3] = m22 !== undefined ? m22 : 1;
+    out[4] = m13 !== undefined ? m13 : 0;
+    out[5] = m23 !== undefined ? m23 : 0;
+
+    return out;
 };
 
-mat32.copy = function(a, b) {
-    a[0] = b[0];
-    a[1] = b[1];
-    a[2] = b[2];
-    a[3] = b[3];
-    a[4] = b[4];
-    a[5] = b[5];
+mat32.copy = function(out, a) {
 
-    return a;
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    out[3] = a[3];
+    out[4] = a[4];
+    out[5] = a[5];
+
+    return out;
 };
 
-mat32.set = function(a, m11, m12, m13, m21, m22, m23) {
+mat32.clone = function(a) {
+    var out = new mathf.ArrayType(6);
 
-    a[0] = m11 !== undefined ? m11 : 1;
-    a[2] = m12 !== undefined ? m12 : 0;
-    a[1] = m21 !== undefined ? m21 : 0;
-    a[3] = m22 !== undefined ? m22 : 1;
-    a[4] = m13 !== undefined ? m13 : 0;
-    a[5] = m23 !== undefined ? m23 : 0;
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    out[3] = a[3];
+    out[4] = a[4];
+    out[5] = a[5];
 
-    return a;
+    return out;
 };
 
-mat32.identity = function(a) {
-    a[0] = 1;
-    a[1] = 0;
-    a[2] = 0;
-    a[3] = 1;
-    a[4] = 0;
-    a[5] = 0;
+mat32.set = function(out, m11, m12, m13, m21, m22, m23) {
 
-    return a;
+    out[0] = m11 !== undefined ? m11 : 1;
+    out[2] = m12 !== undefined ? m12 : 0;
+    out[1] = m21 !== undefined ? m21 : 0;
+    out[3] = m22 !== undefined ? m22 : 1;
+    out[4] = m13 !== undefined ? m13 : 0;
+    out[5] = m23 !== undefined ? m23 : 0;
+
+    return out;
 };
 
-mat32.zero = function(a) {
-    a[0] = 0;
-    a[1] = 0;
-    a[2] = 0;
-    a[3] = 0;
-    a[4] = 0;
-    a[5] = 0;
+mat32.identity = function(out) {
 
-    return a;
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 1;
+    out[4] = 0;
+    out[5] = 0;
+
+    return out;
 };
 
-mat32.mul = function(a, b, out) {
+mat32.zero = function(out) {
+
+    out[0] = 0;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = 0;
+
+    return out;
+};
+
+mat32.mul = function(out, a, b) {
     var a11 = a[0],
         a12 = a[2],
         a13 = a[4],
@@ -73,8 +94,6 @@ mat32.mul = function(a, b, out) {
         b22 = b[3],
         b23 = b[5];
 
-    out = out || a;
-
     out[0] = a11 * b11 + a21 * b12;
     out[2] = a12 * b11 + a22 * b12;
 
@@ -87,8 +106,7 @@ mat32.mul = function(a, b, out) {
     return out;
 };
 
-mat32.smul = function(a, s, out) {
-    out = out || a;
+mat32.smul = function(out, a, s) {
 
     out[0] = a[0] * s;
     out[1] = a[1] * s;
@@ -100,10 +118,8 @@ mat32.smul = function(a, s, out) {
     return out;
 };
 
-mat32.sdiv = function(a, s, out) {
+mat32.sdiv = function(out, a, s) {
     s = s !== 0 ? 1 / s : s;
-
-    out = out || a;
 
     out[0] = a[0] * s;
     out[1] = a[1] * s;
@@ -120,7 +136,7 @@ mat32.determinant = function(a) {
     return a[0] * a[3] - a[2] * a[1];
 };
 
-mat32.inverse = function(a, out) {
+mat32.inverse = function(out, a) {
     var m11 = a[0],
         m12 = a[2],
         m13 = a[4],
@@ -129,8 +145,6 @@ mat32.inverse = function(a, out) {
         m23 = a[5],
 
         det = m11 * m22 - m12 * m21;
-
-    out = out || a;
 
     if (det === 0) {
         return mat32.identity(out);
@@ -148,10 +162,8 @@ mat32.inverse = function(a, out) {
     return out;
 };
 
-mat32.transpose = function(a, out) {
+mat32.transpose = function(out, a) {
     var tmp;
-
-    out = out || a;
 
     if (out === a) {
         tmp = a[1];
@@ -199,14 +211,14 @@ mat32.compose = function(out, position, scale, angle) {
     return out;
 };
 
-mat32.decompose = function(a, position, scale) {
-    var m11 = a[0],
-        m12 = a[1],
+mat32.decompose = function(out, position, scale) {
+    var m11 = out[0],
+        m12 = out[1],
         sx = vec2.lengthValues(m11, m12),
-        sy = vec2.lengthValues(a[2], a[3]);
+        sy = vec2.lengthValues(out[2], out[3]);
 
-    position[0] = a[4];
-    position[1] = a[5];
+    position[0] = out[4];
+    position[1] = out[5];
 
     scale[0] = sx;
     scale[1] = sy;
@@ -214,40 +226,40 @@ mat32.decompose = function(a, position, scale) {
     return mathf.atan2(m12, m11);
 };
 
-mat32.setRotation = function(a, angle) {
+mat32.setRotation = function(out, angle) {
     var c = mathf.cos(angle),
         s = mathf.sin(angle);
 
-    a[0] = c;
-    a[1] = s;
-    a[2] = -s;
-    a[3] = c;
+    out[0] = c;
+    out[1] = s;
+    out[2] = -s;
+    out[3] = c;
 
-    return a;
+    return out;
 };
 
-mat32.getRotation = function(a) {
+mat32.getRotation = function(out) {
 
-    return mathf.atan2(a[1], a[0]);
+    return mathf.atan2(out[1], out[0]);
 };
 
-mat32.setPosition = function(a, v) {
+mat32.setPosition = function(out, v) {
 
-    a[4] = v[0];
-    a[5] = v[1];
+    out[4] = v[0];
+    out[5] = v[1];
 
-    return a;
+    return out;
 };
 
-mat32.getPosition = function(a, v) {
+mat32.getPosition = function(out, v) {
 
-    v[0] = a[4];
-    v[1] = a[5];
+    v[0] = out[4];
+    v[1] = out[5];
 
-    return v;
+    return out;
 };
 
-mat32.extractPosition = function(a, out) {
+mat32.extractPosition = function(out, a) {
 
     out[4] = a[4];
     out[5] = a[5];
@@ -255,7 +267,7 @@ mat32.extractPosition = function(a, out) {
     return out;
 };
 
-mat32.extractRotation = function(a, out) {
+mat32.extractRotation = function(out, a) {
     var m11 = a[0],
         m12 = a[2],
         m21 = a[1],
@@ -276,11 +288,9 @@ mat32.extractRotation = function(a, out) {
     return out;
 };
 
-mat32.translate = function(a, v, out) {
+mat32.translate = function(out, a, v) {
     var x = v[0],
         y = v[1];
-
-    out = out || a;
 
     out[4] = a[0] * x + a[2] * y + a[4];
     out[5] = a[1] * x + a[3] * y + a[5];
@@ -288,7 +298,7 @@ mat32.translate = function(a, v, out) {
     return out;
 };
 
-mat32.rotate = function(a, angle, out) {
+mat32.rotate = function(out, a, angle) {
     var m11 = a[0],
         m12 = a[2],
         m21 = a[1],
@@ -296,8 +306,6 @@ mat32.rotate = function(a, angle, out) {
 
         s = mathf.sin(angle),
         c = mathf.cos(angle);
-
-    out = out || a;
 
     out[0] = m11 * c + m12 * s;
     out[1] = m11 * -s + m12 * c;
@@ -307,11 +315,9 @@ mat32.rotate = function(a, angle, out) {
     return out;
 };
 
-mat32.scale = function(a, v, out) {
+mat32.scale = function(out, a, v) {
     var x = v[0],
         y = v[1];
-
-    out = out || a;
 
     out[0] = a[0] * x;
     out[1] = a[1] * x;
