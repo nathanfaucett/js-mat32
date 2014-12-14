@@ -7,7 +7,7 @@ var mat32 = module.exports;
 
 mat32.create = function(m11, m12, m13, m21, m22, m23) {
     return mat32.set(
-        new mathf.ArrayType(4),
+        new mathf.ArrayType(6),
         m11, m12, m13,
         m21, m22, m23
     );
