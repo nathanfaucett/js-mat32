@@ -1,0 +1,26 @@
+{
+  "name": "mat32",
+  "version": "0.0.1",
+  "description": "mat32 for the browser and node.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nathanfaucett/mat32.git"
+  },
+  "main": "src/index.js",
+  "keywords": [
+    "mat32",
+    "mat32.js"
+  ],
+  "author": "Nathan Faucett",
+  "license": "BSD-2-Clause",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-jsbeautifier": ""
+  },
+  "dependencies": {
+    "mathf": "nathanfaucett/mathf",
+    "vec2": "nathanfaucett/vec2"
+  }
+}
