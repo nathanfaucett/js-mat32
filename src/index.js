@@ -5,8 +5,11 @@ var mathf = require("mathf"),
 var mat32 = module.exports;
 
 
+mat32.ArrayType = typeof(Float32Array) !== "undefined" ? Float32Array : mathf.ArrayType;
+
+
 mat32.create = function(m11, m12, m13, m21, m22, m23) {
-    var out = new mathf.ArrayType(6);
+    var out = new mat32.ArrayType(6);
 
     out[0] = m11 !== undefined ? m11 : 1;
     out[2] = m12 !== undefined ? m12 : 0;
@@ -31,7 +34,7 @@ mat32.copy = function(out, a) {
 };
 
 mat32.clone = function(a) {
-    var out = new mathf.ArrayType(6);
+    var out = new mat32.ArrayType(6);
 
     out[0] = a[0];
     out[1] = a[1];
