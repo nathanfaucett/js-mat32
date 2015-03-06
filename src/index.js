@@ -2,7 +2,7 @@ var mathf = require("mathf"),
     vec2 = require("vec2");
 
 
-var mat32 = module.exports;
+var mat32 = exports;
 
 
 mat32.ArrayType = typeof(Float32Array) !== "undefined" ? Float32Array : mathf.ArrayType;
