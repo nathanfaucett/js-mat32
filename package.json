@@ -7,6 +7,9 @@
     "url": "https://github.com/nathanfaucett/mat32.git"
   },
   "main": "src/index.js",
+  "scripts": {
+    "example": "comn -f example/index.js -o example/index.min.js"
+  },
   "keywords": [
     "mat32",
     "mat32.js"
@@ -20,7 +23,7 @@
     "grunt-jsbeautifier": ""
   },
   "dependencies": {
-    "mathf": "nathanfaucett/mathf",
-    "vec2": "nathanfaucett/vec2"
+    "mathf": "git://github.com/nathanfaucett/mathf.git",
+    "vec2": "git://github.com/nathanfaucett/vec2.git"
   }
 }
