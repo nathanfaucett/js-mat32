@@ -1,5 +1,6 @@
 var mathf = require("mathf"),
-    vec2 = require("vec2");
+    vec2 = require("vec2"),
+    isNumber = require("is_number");
 
 
 var mat32 = exports;
@@ -11,12 +12,12 @@ mat32.ArrayType = typeof(Float32Array) !== "undefined" ? Float32Array : mathf.Ar
 mat32.create = function(m11, m12, m13, m21, m22, m23) {
     var out = new mat32.ArrayType(6);
 
-    out[0] = m11 !== undefined ? m11 : 1;
-    out[2] = m12 !== undefined ? m12 : 0;
-    out[1] = m21 !== undefined ? m21 : 0;
-    out[3] = m22 !== undefined ? m22 : 1;
-    out[4] = m13 !== undefined ? m13 : 0;
-    out[5] = m23 !== undefined ? m23 : 0;
+    out[0] = isNumber(m11) ? m11 : 1;
+    out[2] = isNumber(m12) ? m12 : 0;
+    out[1] = isNumber(m21) ? m21 : 0;
+    out[3] = isNumber(m22) ? m22 : 1;
+    out[4] = isNumber(m13) ? m13 : 0;
+    out[5] = isNumber(m23) ? m23 : 0;
 
     return out;
 };
@@ -48,12 +49,12 @@ mat32.clone = function(a) {
 
 mat32.set = function(out, m11, m12, m13, m21, m22, m23) {
 
-    out[0] = m11 !== undefined ? m11 : 1;
-    out[2] = m12 !== undefined ? m12 : 0;
-    out[1] = m21 !== undefined ? m21 : 0;
-    out[3] = m22 !== undefined ? m22 : 1;
-    out[4] = m13 !== undefined ? m13 : 0;
-    out[5] = m23 !== undefined ? m23 : 0;
+    out[0] = isNumber(m11) ? m11 : 1;
+    out[2] = isNumber(m12) ? m12 : 0;
+    out[1] = isNumber(m21) ? m21 : 0;
+    out[3] = isNumber(m22) ? m22 : 1;
+    out[4] = isNumber(m13) ? m13 : 0;
+    out[5] = isNumber(m23) ? m23 : 0;
 
     return out;
 };
@@ -371,3 +372,12 @@ mat32.notEqual = function(a, b) {
         a[5] !== b[5]
     );
 };
+
+mat32.str = function(out) {
+    return (
+        "Mat3[" + out[0] + ", " + out[2] + ", " + out[4] + "]\n" +
+        "     [" + out[1] + ", " + out[3] + ", " + out[5] + "]"
+    );
+};
+
+mat32.string = mat32.toString = mat32.str;
