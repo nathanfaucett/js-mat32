@@ -381,8 +381,8 @@ mat32.fromMat4 = function(out, m) {
     out[1] = m[1];
     out[2] = m[4];
     out[3] = m[5];
-    out[4] = 0;
-    out[5] = 0;
+    out[4] = m[12];
+    out[5] = m[13];
 
     return out;
 };
