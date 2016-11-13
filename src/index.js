@@ -351,6 +351,42 @@ mat32.orthographic = function(out, left, right, top, bottom) {
     return out;
 };
 
+mat32.fromMat2 = function(out, m) {
+
+    out[0] = m[0];
+    out[1] = m[1];
+    out[2] = m[2];
+    out[3] = m[3];
+    out[4] = 0;
+    out[5] = 0;
+
+    return out;
+};
+
+mat32.fromMat3 = function(out, m) {
+
+    out[0] = m[0];
+    out[1] = m[1];
+    out[2] = m[3];
+    out[3] = m[4];
+    out[4] = 0;
+    out[5] = 0;
+
+    return out;
+};
+
+mat32.fromMat4 = function(out, m) {
+
+    out[0] = m[0];
+    out[1] = m[1];
+    out[2] = m[4];
+    out[3] = m[5];
+    out[4] = 0;
+    out[5] = 0;
+
+    return out;
+};
+
 mat32.equal = function(a, b) {
     return !(
         a[0] !== b[0] ||
