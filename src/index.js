@@ -334,7 +334,7 @@ mat32.scale = function(out, a, v) {
     return out;
 };
 
-mat32.orthographic = function(out, top, left, bottom, right) {
+mat32.orthographic = function(out, top, right, bottom, left) {
     var w = right - left,
         h = top - bottom,
 
