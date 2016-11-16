@@ -243,7 +243,6 @@ mat32.setRotation = function(out, angle) {
 };
 
 mat32.getRotation = function(out) {
-
     return mathf.atan2(out[1], out[0]);
 };
 
@@ -311,10 +310,10 @@ mat32.rotate = function(out, a, angle) {
         s = mathf.sin(angle),
         c = mathf.cos(angle);
 
-    out[0] = m11 * c + m12 * s;
-    out[1] = m11 * -s + m12 * c;
-    out[2] = m21 * c + m22 * s;
-    out[3] = m21 * -s + m22 * c;
+    out[0] = m11 * c + m12 * -s;
+    out[1] = m11 * s + m12 * c;
+    out[2] = m21 * c + m22 * -s;
+    out[3] = m21 * s + m22 * c;
 
     return out;
 };
@@ -325,16 +324,17 @@ mat32.scale = function(out, a, v) {
 
     out[0] = a[0] * x;
     out[1] = a[1] * x;
-    out[4] = a[4] * x;
 
     out[2] = a[2] * y;
     out[3] = a[3] * y;
-    out[5] = a[5] * y;
+
+    out[4] = a[4];
+    out[5] = a[5];
 
     return out;
 };
 
-mat32.orthographic = function(out, left, right, top, bottom) {
+mat32.orthographic = function(out, top, left, bottom, right) {
     var w = right - left,
         h = top - bottom,
 
@@ -387,32 +387,24 @@ mat32.fromMat4 = function(out, m) {
     return out;
 };
 
-mat32.equal = function(a, b) {
-    return !(
-        a[0] !== b[0] ||
-        a[1] !== b[1] ||
-        a[2] !== b[2] ||
-        a[3] !== b[3] ||
-        a[4] !== b[4] ||
-        a[5] !== b[5]
-    );
+mat32.equals = function(a, b, e) {
+    return !mat32.notEquals(a, b, e);
 };
 
-mat32.notEqual = function(a, b) {
-    return (
-        a[0] !== b[0] ||
-        a[1] !== b[1] ||
-        a[2] !== b[2] ||
-        a[3] !== b[3] ||
-        a[4] !== b[4] ||
-        a[5] !== b[5]
+mat32.notEquals = function(a, b, e) {
+    return (!mathf.equals(a[0], b[0], e) ||
+        !mathf.equals(a[1], b[1], e) ||
+        !mathf.equals(a[2], b[2], e) ||
+        !mathf.equals(a[3], b[3], e) ||
+        !mathf.equals(a[4], b[4], e) ||
+        !mathf.equals(a[5], b[5], e)
     );
 };
 
 mat32.str = function(out) {
     return (
-        "Mat3[" + out[0] + ", " + out[2] + ", " + out[4] + "]\n" +
-        "     [" + out[1] + ", " + out[3] + ", " + out[5] + "]"
+        "Mat3[" + out[0] + ", " + out[2] + ", " + out[4] + ",\n" +
+        "     " + out[1] + ", " + out[3] + ", " + out[5] + "]"
     );
 };
 

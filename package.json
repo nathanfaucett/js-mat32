@@ -1,6 +1,6 @@
 {
   "name": "@nathanfaucett/mat32",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "mat32 for the browser and node.js",
   "repository": {
     "type": "git",
@@ -31,6 +31,6 @@
   "dependencies": {
     "@nathanfaucett/is_number": "^0.0.1",
     "@nathanfaucett/mathf": "^0.0.3",
-    "@nathanfaucett/vec2": "^0.0.2"
+    "@nathanfaucett/vec2": "^0.0.3"
   }
 }
